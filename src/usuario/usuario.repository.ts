@@ -13,7 +13,7 @@ export class UsuarioRepository {
     return this.usuarios;
   }
 
-  async atualiza(id: string, dadosDeAtualizacao: Partial<UsuarioEntity>) {
+  async atualizar(id: string, dadosDeAtualizacao: Partial<UsuarioEntity>) {
     const possivelUsuario = this.usuarios.find(usuarioSalvo => usuarioSalvo.id === id);
     
     if (!possivelUsuario) {
@@ -30,7 +30,7 @@ export class UsuarioRepository {
       )
   }
 
-  async exclui(id: string) {
+  async excluir(id: string) {
     this.usuarios = this.usuarios.filter(usuario => usuario.id !== id);
   }
 
@@ -40,5 +40,5 @@ export class UsuarioRepository {
     );
     return possivelUsuarioComEmail !== undefined;
   }
-  
+
 }
