@@ -26,6 +26,8 @@
 
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 
+#### Branch 1 - Uso de API RESTful para catálogo de usuários e produtos.
+
 ## Installation
 
 ```bash
