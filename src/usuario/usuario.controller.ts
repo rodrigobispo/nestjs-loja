@@ -5,11 +5,15 @@ import { UsuarioEntity } from 'src/entity/Usuario.entity';
 import { v4 as uuid } from 'uuid';
 import { ListaUsuarioDTO } from './dto/ListaUsuario.dto';
 import { AtualizaUsuarioDTO } from './dto/AtualizaUsuario.dto';
+import { UsuarioService } from './usuario.service';
 
 @Controller('/usuarios')
 export class UsuarioController {
 
-  constructor(private usuarioRepository: UsuarioRepository) {}
+  constructor(
+    private usuarioRepository: UsuarioRepository,
+    private usuarioService: UsuarioService
+  ) {}
 
   @Post()
   async criaUsuario(@Body() dadosDoUsuario: UsuarioDTO) {
@@ -20,21 +24,14 @@ export class UsuarioController {
     usuario.senha = dadosDoUsuario.senha;
     usuario.id = uuid();
 
-    this.usuarioRepository.salvar(usuario);
+    await this.usuarioService.criaUsuario(usuario);
     return `Usuário ${usuario.nome} com id ${usuario.id} criado com sucesso.`;
   }
 
   @Get()
   async listaUsuarios() {
-    const usuariosSalvos = await this.usuarioRepository.listar();
-    const listaDeUsuarios = usuariosSalvos.map(
-      usuario => new ListaUsuarioDTO(
-        usuario.nome,
-        usuario.id
-      )
-    );
-    
-    return listaDeUsuarios;
+    const usuarios = await this.usuarioService.listaUsuarios();
+    return usuarios;
   }
 
   @Put('/:id')
