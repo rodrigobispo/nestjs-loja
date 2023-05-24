@@ -3,6 +3,7 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { UsuarioEntity } from "src/entity/Usuario.entity";
 import { Repository } from "typeorm";
 import { ListaUsuarioDTO } from "./dto/ListaUsuario.dto";
+import { AtualizaUsuarioDTO } from "./dto/AtualizaUsuario.dto";
 
 @Injectable()
 export class UsuarioService {
@@ -16,6 +17,14 @@ export class UsuarioService {
     await this.usuarioRepository.save(usuario);
   }
 
+  async atualizaUsuario(id: string, usuario: AtualizaUsuarioDTO) {
+    await this.usuarioRepository.update(id, usuario);
+  }
+
+  async excluiUsuario(id: string) {
+    await this.usuarioRepository.delete(id);
+  }
+
   async listaUsuarios() {
     const usuariosSalvos = await this.usuarioRepository.find();
     const listaDeUsuarios = usuariosSalvos.map(
@@ -26,5 +35,5 @@ export class UsuarioService {
     );
     return listaDeUsuarios;
   }
-  
+
 }
