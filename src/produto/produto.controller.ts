@@ -1,5 +1,4 @@
 import { Body, Controller, Get, Post } from "@nestjs/common";
-import { ProdutoRepository } from "./produto.repository";
 import { ProdutoDTO } from "./dto/Produto.dto";
 import { ProdutoEntity } from "src/entity/Produto.entity";
 import { randomUUID } from "crypto";
@@ -8,7 +7,9 @@ import { ProdutoService } from "./produto.service";
 @Controller()
 export class ProdutoController {
 
-  constructor(private produtoRepository: ProdutoRepository, private readonly produtoService: ProdutoService) {}
+  constructor(
+    private readonly produtoService: ProdutoService
+  ) {}
 
   @Post('/produtos')
   public async criaProduto(@Body() dadosDoProduto: ProdutoDTO) {
