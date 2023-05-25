@@ -1,4 +1,4 @@
-import { IsArray, IsEmpty, IsNotEmpty, IsNumber, IsPositive, MaxLength, ValidateNested } from "class-validator";
+import { IsArray, IsEmpty, IsNotEmpty, IsNumber, IsOptional, IsPositive, MaxLength, ValidateNested } from "class-validator";
 import { CaracteristicaProdutoDTO } from "./CaracteristicaProduto.dto";
 import { ImagemProdutoDTO } from "./ImagemProduto.dto";
 import { Type } from "class-transformer";
@@ -31,4 +31,7 @@ export class ProdutoDTO {
 
   @IsNotEmpty()
   categoria: string;
+
+  @IsNotEmpty()
+  usuarioId: string;
 }
