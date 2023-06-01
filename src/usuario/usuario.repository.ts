@@ -1,43 +1,20 @@
 import { Injectable } from "@nestjs/common";
+import { InjectRepository } from "@nestjs/typeorm";
 import { UsuarioEntity } from "src/entity/Usuario.entity";
+import { Repository } from "typeorm";
 
 @Injectable()
 export class UsuarioRepository {
-  private usuarios: Array<UsuarioEntity> = [];
-
-  async salvar(usuario: UsuarioEntity) {
-    this.usuarios.push(usuario);
-  }
-
-  async listar() {
-    return this.usuarios;
-  }
-
-  async atualizar(id: string, dadosDeAtualizacao: Partial<UsuarioEntity>) {
-    const possivelUsuario = this.usuarios.find(usuarioSalvo => usuarioSalvo.id === id);
-    
-    if (!possivelUsuario) {
-      throw new Error('Usuário não existe.');
-    }
-
-    Object.entries(dadosDeAtualizacao).forEach(
-      ([chave, valor]) => {
-        if (chave === id) {
-          return;
-        }
-        possivelUsuario[chave] = valor;
-      }
-      )
-  }
-
-  async excluir(id: string) {
-    this.usuarios = this.usuarios.filter(usuario => usuario.id !== id);
-  }
+  
+  constructor(
+    @InjectRepository(UsuarioEntity)
+    private readonly usuarioRepository: Repository<UsuarioEntity>
+  ) {}
+  // private usuarios: Array<UsuarioEntity> = [];
 
   async jaExisteComEmail(email: string) {
-    const possivelUsuarioComEmail = this.usuarios.find(
-      usuario => usuario.email === email
-    );
+    const possivelUsuarioComEmail = await (await this.usuarioRepository.find()).find(usuario => usuario.email === email);
+
     return possivelUsuarioComEmail !== undefined;
   }
 

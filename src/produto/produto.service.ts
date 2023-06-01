@@ -2,7 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { ProdutoEntity } from "src/entity/Produto.entity";
 import { Repository } from "typeorm";
-import { ProdutoRepository } from "./produto.repository";
+import { AtualizaProdutoDTO } from "./dto/AtualizaProduto.dto";
 
 @Injectable()
 export class ProdutoService {
@@ -16,7 +16,7 @@ export class ProdutoService {
     return await this.produtoRepository.save(produto);
   }
 
-  async atualizaProduto(id: string, produto: ProdutoEntity) {
+  async atualizaProduto(id: string, produto: AtualizaProdutoDTO) {
     await this.produtoRepository.update(id, produto);
   }
 

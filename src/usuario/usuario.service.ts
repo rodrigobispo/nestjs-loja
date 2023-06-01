@@ -30,7 +30,8 @@ export class UsuarioService {
     const listaDeUsuarios = usuariosSalvos.map(
       usuario => new ListaUsuarioDTO(
         usuario.nome,
-        usuario.id
+        usuario.id,
+        usuario.email
       )
     );
     return listaDeUsuarios;
