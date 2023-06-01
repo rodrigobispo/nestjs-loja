@@ -22,11 +22,27 @@
   <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
   [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 
-## Description
+## Descrição do projeto
 
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 
-#### Branch 1 - Uso de API RESTful para catálogo de usuários e produtos.
+### Uso de API RESTful para catálogo de usuários e produtos, manipulando dados da seguinte maneira:
+
+- Branch 1 - através de dados e lista em memória.
+- Branch 2 - através de acesso ao banco de dados, usando Postgres em docker.
+
+    - Comando `docker-compose up -d` para subir o serviço.
+    - De acordo com o arquivo `docker-compose.yaml`, o banco pode ser acessado pela URL `http://localhost:8081/` com usuário e senha do pgAdmin de acordo com o arquivo `.env` do projeto, por exemplo, `admin@root.com` e `root` respectivamente.
+    - Arquivo `.env`, por exemplo:
+  
+    ```
+    DB_HOST=127.0.0.1
+    DB_PORT=5432
+    DB_USERNAME=root
+    DB_PASSWORD=root
+    DB_NAME=db_loja
+    DB_ADMIN_EMAIL=admin@root.com
+    ```
 
 ## Installation
 
