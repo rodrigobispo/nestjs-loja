@@ -4,6 +4,7 @@ import {
   CreateDateColumn, 
   DeleteDateColumn, 
   Entity, 
+  OneToMany, 
   PrimaryGeneratedColumn, 
   UpdateDateColumn } from "typeorm";
 import { ProdutoCaracteristicaEntity } from "./ProdutoCaracteristica.entity";
@@ -42,8 +43,20 @@ export class ProdutoEntity {
   @DeleteDateColumn({ name: 'deleted_at' })
   deletedAt: string;
 
+  @OneToMany(
+    () => ProdutoCaracteristicaEntity,
+    (produtoCaracteristicaEntity) => produtoCaracteristicaEntity.produto,
+    { cascade: true, eager: true }
+  )
   caracteristicas: Array<ProdutoCaracteristicaEntity>;
+
+  @OneToMany(
+    () => ProdutoImagemEntity,
+    (produtoImagemEntity) => produtoImagemEntity.produto,
+    { cascade: true, eager: true }
+  )
   imagens: ProdutoImagemEntity[];
+
 }
 
 

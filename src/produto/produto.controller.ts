@@ -30,6 +30,8 @@ export class ProdutoController {
     produto.quantidade = dadosDoProduto.quantidade;
     produto.descricao = dadosDoProduto.descricao;
     produto.categoria = dadosDoProduto.categoria;
+    produto.caracteristicas = dadosDoProduto.caracteristicas;
+    produto.imagens = dadosDoProduto.imagens;
 
     return this.produtoService.criaProduto(produto);
   }

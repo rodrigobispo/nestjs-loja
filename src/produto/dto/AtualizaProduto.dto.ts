@@ -1,7 +1,7 @@
 import { IsArray, IsEmpty, IsNotEmpty, IsNumber, IsOptional, IsPositive, MaxLength, ValidateNested } from "class-validator";
-import { CaracteristicaProdutoDTO } from "./CaracteristicaProduto.dto";
-import { ImagemProdutoDTO } from "./ImagemProduto.dto";
 import { Type } from "class-transformer";
+import { ProdutoImagemEntity } from "src/entity/ProdutoImagem.entity";
+import { ProdutoCaracteristicaEntity } from "src/entity/ProdutoCaracteristica.entity";
 
 export class AtualizaProdutoDTO {
 
@@ -25,15 +25,15 @@ export class AtualizaProdutoDTO {
 
   @IsArray()
   @ValidateNested()
-  @Type(() => CaracteristicaProdutoDTO)
+  @Type(() => ProdutoCaracteristicaEntity)
   @IsOptional()
-  caracteristicas: CaracteristicaProdutoDTO[];
+  caracteristicas: ProdutoCaracteristicaEntity[];
 
   @IsArray()
   @ValidateNested()
-  @Type(() => ImagemProdutoDTO)
+  @Type(() => ProdutoImagemEntity)
   @IsOptional()
-  imagens: ImagemProdutoDTO[];
+  imagens: ProdutoImagemEntity[];
 
   @IsNotEmpty()
   @IsOptional()
