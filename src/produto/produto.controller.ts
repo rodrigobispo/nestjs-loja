@@ -23,7 +23,7 @@ export class ProdutoController {
 
     const produto = new ProdutoEntity();
 
-    produto.id = randomUUID();
+    // produto.id = randomUUID();
     produto.nome = dadosDoProduto.nome;
     produto.usuarioId = dadosDoProduto.usuarioId;
     produto.valor = dadosDoProduto.valor;
