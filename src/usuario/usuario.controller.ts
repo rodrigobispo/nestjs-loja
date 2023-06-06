@@ -1,9 +1,8 @@
 import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
 import { UsuarioDTO } from './dto/Usuario.dto';
-import { UsuarioEntity } from 'src/entity/Usuario.entity';
-import { v4 as uuid } from 'uuid';
 import { AtualizaUsuarioDTO } from './dto/AtualizaUsuario.dto';
 import { UsuarioService } from './usuario.service';
+
 
 @Controller('/usuarios')
 export class UsuarioController {
@@ -14,15 +13,8 @@ export class UsuarioController {
 
   @Post()
   async criaUsuario(@Body() dadosDoUsuario: UsuarioDTO) {
-    const usuario = new UsuarioEntity();
-
-    usuario.nome = dadosDoUsuario.nome;
-    usuario.email = dadosDoUsuario.email;
-    usuario.senha = dadosDoUsuario.senha;
-    usuario.id = uuid();
-
-    await this.usuarioService.criaUsuario(usuario);
-    return `Usuário ${usuario.nome} com id ${usuario.id} criado com sucesso.`;
+    await this.usuarioService.criaUsuario(dadosDoUsuario);
+    return `Usuário ${dadosDoUsuario.nome} criado com sucesso.`;
   }
 
   @Get()
@@ -36,7 +28,7 @@ export class UsuarioController {
     @Param('id') id: string,
     @Body() novosDados: AtualizaUsuarioDTO
   ) {
-    const usuarioAtualizado = await this.usuarioService.atualizaUsuario(id, novosDados);
+    const usuarioAtualizado = await this.usuarioService.atualizaUsuario(Number(id), novosDados);
 
     return {
       usuario: usuarioAtualizado,
@@ -46,8 +38,8 @@ export class UsuarioController {
 
   @Delete('/:id')
   async removeUsuario(@Param('id') id: string) {
-    await this.usuarioService.excluiUsuario(id);
-    return `Usuário ${id} removido com sucesso.`
+    await this.usuarioService.excluiUsuario({ id: Number(id) });
+    return `Usuário ${id} removido com sucesso.`;
   }
 
 }

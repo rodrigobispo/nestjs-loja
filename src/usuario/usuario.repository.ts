@@ -1,21 +1,19 @@
 import { Injectable } from "@nestjs/common";
-import { InjectRepository } from "@nestjs/typeorm";
-import { UsuarioEntity } from "src/entity/Usuario.entity";
-import { Repository } from "typeorm";
+import { PrismaService } from "src/prisma.service";
 
 @Injectable()
 export class UsuarioRepository {
   
   constructor(
-    @InjectRepository(UsuarioEntity)
-    private readonly usuarioRepository: Repository<UsuarioEntity>
+    private readonly prisma: PrismaService
   ) {}
-  // private usuarios: Array<UsuarioEntity> = [];
 
   async jaExisteComEmail(email: string) {
-    const possivelUsuarioComEmail = await (await this.usuarioRepository.find()).find(usuario => usuario.email === email);
+    const possivelUsuarioComEmail = await this.prisma.usuarios.findFirst({
+      where: { email: email }
+    });
 
-    return possivelUsuarioComEmail !== undefined;
+    return possivelUsuarioComEmail !== null;
   }
 
 }
