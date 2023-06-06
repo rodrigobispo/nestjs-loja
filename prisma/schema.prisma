@@ -1,0 +1,49 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model produto_caracteristicas {
+  id        Int       @id(map: "PK_produto_caracteristicas") @default(autoincrement()) @db.SmallInt
+  nome      String    @db.VarChar(100)
+  descricao String    @db.VarChar(255)
+  produtoId Int?
+  produtos  produtos? @relation(fields: [produtoId], references: [id], onDelete: Cascade, map: "FK_produto_caracteristicas_produtoId")
+}
+
+model produto_imagens {
+  id        Int       @id(map: "PK_produto_imagens") @default(autoincrement()) @db.SmallInt
+  url       String    @db.VarChar(100)
+  descricao String    @db.VarChar(100)
+  produtoId Int?
+  produtos  produtos? @relation(fields: [produtoId], references: [id], onDelete: Cascade, map: "FK_produto_imagens_produtoId")
+}
+
+model produtos {
+  id                      Int                       @id(map: "PK_produtos") @default(autoincrement()) @db.SmallInt
+  usuario_id              String                    @db.VarChar(100)
+  nome                    String                    @db.VarChar(100)
+  valor                   Int
+  quantidade              Int
+  descricao               String                    @db.VarChar(255)
+  categoria               String                    @db.VarChar(100)
+  created_at              DateTime                  @default(now()) @db.Timestamp(6)
+  updated_at              DateTime                  @default(now()) @db.Timestamp(6)
+  deleted_at              DateTime?                 @db.Timestamp(6)
+  produto_caracteristicas produto_caracteristicas[]
+  produto_imagens         produto_imagens[]
+}
+
+model usuarios {
+  id         Int       @id(map: "PK_usuarios") @default(autoincrement()) @db.SmallInt
+  nome       String    @db.VarChar(100)
+  email      String    @db.VarChar(70)
+  senha      String    @db.VarChar(255)
+  created_at DateTime  @default(now()) @db.Timestamp(6)
+  updated_at DateTime  @default(now()) @db.Timestamp(6)
+  deleted_at DateTime? @db.Timestamp(6)
+}
