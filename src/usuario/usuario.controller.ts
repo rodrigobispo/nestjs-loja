@@ -38,7 +38,7 @@ export class UsuarioController {
 
   @Delete('/:id')
   async removeUsuario(@Param('id') id: string) {
-    await this.usuarioService.excluiUsuario({ id: Number(id) });
+    await this.usuarioService.excluiUsuario(Number(id));
     return `Usuário ${id} removido com sucesso.`;
   }
 

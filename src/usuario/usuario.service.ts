@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { AtualizaUsuarioDTO } from "./dto/AtualizaUsuario.dto";
 import { PrismaService } from "src/prisma.service";
-import { Prisma, usuarios } from "@prisma/client";
+import { Prisma, Usuario } from "@prisma/client";
 
 @Injectable()
 export class UsuarioService {
@@ -10,27 +10,27 @@ export class UsuarioService {
     private readonly prisma: PrismaService
   ) {}
 
-  async criaUsuario(usuario: Prisma.usuariosCreateInput): Promise<usuarios> {
-    return this.prisma.usuarios.create({
+  async criaUsuario(usuario: Prisma.UsuarioCreateInput): Promise<Usuario> {
+    return this.prisma.usuario.create({
       data: { ...usuario }
     });
   }
 
-  async atualizaUsuario(id: number, usuario: AtualizaUsuarioDTO): Promise<usuarios> {
-    return await this.prisma.usuarios.update({
+  async atualizaUsuario(id: number, usuario: AtualizaUsuarioDTO): Promise<Usuario> {
+    return await this.prisma.usuario.update({
       where: { id: Number(id) },
       data: { ...usuario }
     })
   }
 
-  async excluiUsuario(where: Prisma.usuariosWhereUniqueInput): Promise<usuarios> {
-    return this.prisma.usuarios.delete({
-      where,
+  async excluiUsuario(id: number): Promise<Usuario> {
+    return await this.prisma.usuario.delete({
+      where: { id: id }
     });
   }
 
-  async listaUsuarios(): Promise<usuarios[]> {
-    return this.prisma.usuarios.findMany({
+  async listaUsuarios(): Promise<Usuario[]> {
+    return this.prisma.usuario.findMany({
       where: {
         OR: [
           { nome: { contains: 'pris' } },
@@ -40,18 +40,7 @@ export class UsuarioService {
     });
   }
 
-  async findById(where: Prisma.usuariosWhereUniqueInput): Promise<usuarios | null> {
-    return this.prisma.usuarios.findUnique({ where, })
+  async findById(where: Prisma.UsuarioWhereUniqueInput): Promise<Usuario | null> {
+    return this.prisma.usuario.findUnique({ where, })
   }
-
-  
-  // Também funciona:
-  // async criaUsuario(usuario: Prisma.usuariosCreateInput): Promise<usuarios> {
-  //   const { nome, email, senha } = usuario;
-  //   return this.prisma.usuarios.create({
-  //     data: {
-  //       nome, email, senha
-  //     }
-  //   });
-  // }
 }
