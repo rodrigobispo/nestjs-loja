@@ -6,8 +6,6 @@ import { Body,
   Post, 
   Put } from "@nestjs/common";
 import { ProdutoDTO } from "./dto/Produto.dto";
-import { ProdutoEntity } from "src/entity/Produto.entity";
-import { randomUUID } from "crypto";
 import { ProdutoService } from "./produto.service";
 import { AtualizaProdutoDTO } from "./dto/AtualizaProduto.dto";
 
@@ -20,25 +18,11 @@ export class ProdutoController {
 
   @Post()
   public async criaProduto(@Body() dadosDoProduto: ProdutoDTO) {
-
-    const produto = new ProdutoEntity();
-
-    // produto.id = randomUUID();
-    produto.nome = dadosDoProduto.nome;
-    produto.usuarioId = dadosDoProduto.usuarioId;
-    produto.valor = dadosDoProduto.valor;
-    produto.quantidade = dadosDoProduto.quantidade;
-    produto.descricao = dadosDoProduto.descricao;
-    produto.categoria = dadosDoProduto.categoria;
-    produto.caracteristicas = dadosDoProduto.caracteristicas;
-    produto.imagens = dadosDoProduto.imagens;
-
-    return this.produtoService.criaProduto(produto);
+    return this.produtoService.criaProduto(dadosDoProduto);
   }
 
   @Get()
   public async listaProdutos() {
-    console.log("Listando produtos...")
     return this.produtoService.listaProdutos();
   }
 
@@ -47,7 +31,7 @@ export class ProdutoController {
     @Param('id') id: string,
     @Body() novosDados: AtualizaProdutoDTO
   ) {
-    const produtoAtualizado = await this.produtoService.atualizaProduto(id, novosDados);
+    const produtoAtualizado = await this.produtoService.atualizaProduto(Number(id), novosDados);
 
     return {
       usuario: produtoAtualizado,
@@ -57,7 +41,7 @@ export class ProdutoController {
 
   @Delete('/:id')
   async removeProduto(@Param('id') id: string) {
-    await this.produtoService.excluiProduto(id);
+    await this.produtoService.excluiProduto(Number(id));
     return `Produto ${id} removido com sucesso.`
   }
 }

@@ -1,7 +1,5 @@
-import { IsArray, IsEmpty, IsNotEmpty, IsNumber, IsOptional, IsPositive, MaxLength, ValidateNested } from "class-validator";
+import { IsArray, IsNotEmpty, IsNumber, IsOptional, IsPositive, MaxLength, ValidateNested } from "class-validator";
 import { Type } from "class-transformer";
-import { ProdutoCaracteristicaEntity } from "src/entity/ProdutoCaracteristica.entity";
-import { ProdutoImagemEntity } from "src/entity/ProdutoImagem.entity";
 
 export class ProdutoDTO {
 
@@ -21,17 +19,17 @@ export class ProdutoDTO {
 
   @IsArray()
   // @ValidateNested()
-  @Type(() => ProdutoCaracteristicaEntity)
-  caracteristicas: ProdutoCaracteristicaEntity[];
+  // @Type(() => )
+  caracteristicas: [];
 
   @IsArray()
   // @ValidateNested()
-  @Type(() => ProdutoImagemEntity)
-  imagens: ProdutoImagemEntity[];
+  // @Type(() => )
+  imagens: [];
 
   @IsNotEmpty()
   categoria: string;
 
-  @IsNotEmpty()
-  usuarioId: string;
+  @IsOptional()
+  usuarioId: number;
 }

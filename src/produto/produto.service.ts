@@ -1,32 +1,61 @@
 import { Injectable } from "@nestjs/common";
-
-import { ProdutoEntity } from "src/entity/Produto.entity";
-import { Repository } from "typeorm";
 import { AtualizaProdutoDTO } from "./dto/AtualizaProduto.dto";
+import { PrismaService } from "src/prisma.service";
+import { Produto } from "@prisma/client";
+import { ProdutoDTO } from "./dto/Produto.dto";
 
 @Injectable()
 export class ProdutoService {
 
-  // constructor(
-  //   // @InjectRepository(ProdutoEntity)
-  //   // private readonly produtoRepository: Repository<ProdutoEntity>
-  // ) {}
+  constructor(
+    private readonly prisma: PrismaService
+  ) {}
 
-  async criaProduto(produto: ProdutoEntity) {
-    // return await this.produtoRepository.save(produto);
+  async criaProduto(produto: ProdutoDTO): Promise<Produto> {
+    const data = { ...produto };
+    const { caracteristicas } = { ...produto };
+    const { imagens } = { ...produto };
+    
+    return this.prisma.produto.create({
+      data: {
+        ...data,
+        caracteristicas: {
+          create: [...caracteristicas]
+        },
+        imagens: {
+          create: [...imagens]
+        }
+      }
+    });
+  }
+  
+  async atualizaProduto(id: number, produto: AtualizaProdutoDTO): Promise<Produto> {
+    const data = { ...produto };
+    const { caracteristicas } = { ...produto };
+    const { imagens } = { ...produto };
+    
+    return await this.prisma.produto.update({
+      where: { id: Number(id) },
+      data: {
+        ...data,
+        caracteristicas: {
+          create: [...caracteristicas]
+        },
+        imagens: {
+          create: [...imagens]
+        }
+      }
+    })
   }
 
-  async atualizaProduto(id: string, produto: AtualizaProdutoDTO) {
-    // await this.produtoRepository.update(id, produto);
-  }
-
-  async excluiProduto(id: string) {
-    // await this.produtoRepository.delete(id);
+  async excluiProduto(id: number) {
+    return await this.prisma.produto.delete({
+      where: { id: id }
+    });
   }
 
   async listaProdutos() {
-    // const produtosGravados = await this.produtoRepository.find();
-    // return produtosGravados;
+    return await this.prisma.produto.findMany();
   }
 
 }
