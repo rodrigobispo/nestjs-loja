@@ -9,7 +9,7 @@ export class UsuarioRepository {
   ) {}
 
   async jaExisteComEmail(email: string) {
-    const possivelUsuarioComEmail = await this.prisma.usuarios.findFirst({
+    const possivelUsuarioComEmail = await this.prisma.usuario.findFirst({
       where: { email: email }
     });
 
